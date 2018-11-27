@@ -23,6 +23,21 @@
                 <th>Description</th>
                 <td>{{ product.description }}</td>
             </tr>
+            <tr>
+                <th>Manufacturer</th>
+                <td>{{ product.manufacturer.name }}</td>
+            </tr>
+            <tr>
+                <th>Supplier</th>
+                <td>
+                {% for supplier in product.suppliers %}
+                    {{ supplier.name }}
+                    {% if not loop.last %}
+                        <br>
+                    {% endif %}
+                {% endfor %}
+                </td>
+            </tr>
         </tbody>
     </table>
 
