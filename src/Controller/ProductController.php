@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Controller;
-
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
@@ -9,7 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 /**
  * @Route("/product")
  */
@@ -22,7 +19,6 @@ class ProductController extends AbstractController
     {
         return $this->render('product/index.html.twig', ['products' => $productRepository->findAll()]);
     }
-
     /**
      * @Route("/new", name="product_new", methods="GET|POST")
      */
@@ -31,21 +27,17 @@ class ProductController extends AbstractController
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($product);
             $em->flush();
-
             return $this->redirectToRoute('product_index');
         }
-
         return $this->render('product/new.html.twig', [
             'product' => $product,
             'form' => $form->createView(),
         ]);
     }
-
     /**
      * @Route("/{id}", name="product_show", methods="GET")
      */
@@ -53,7 +45,6 @@ class ProductController extends AbstractController
     {
         return $this->render('product/show.html.twig', ['product' => $product]);
     }
-
     /**
      * @Route("/{id}/edit", name="product_edit", methods="GET|POST")
      */
@@ -61,19 +52,15 @@ class ProductController extends AbstractController
     {
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('product_index', ['id' => $product->getId()]);
         }
-
         return $this->render('product/edit.html.twig', [
             'product' => $product,
             'form' => $form->createView(),
         ]);
     }
-
     /**
      * @Route("/{id}", name="product_delete", methods="DELETE")
      */
@@ -84,7 +71,6 @@ class ProductController extends AbstractController
             $em->remove($product);
             $em->flush();
         }
-
         return $this->redirectToRoute('product_index');
     }
 }

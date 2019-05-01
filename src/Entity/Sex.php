@@ -4,9 +4,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ManufacturerRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\SexRepository")
  */
-class Manufacturer
+class Sex
 {
     /**
      * @ORM\Id()
@@ -19,12 +19,12 @@ class Manufacturer
      */
     private $name;
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="manufacturer")
+     * @ORM\OneToMany(targetEntity="App\Entity\Person", mappedBy="sex")
      */
-    private $products;
+    private $people;
     public function __construct()
     {
-        $this->products = new ArrayCollection();
+        $this->people = new ArrayCollection();
     }
     public function getId(): ?int
     {
@@ -40,27 +40,27 @@ class Manufacturer
         return $this;
     }
     /**
-     * @return Collection|Product[]
+     * @return Collection|Person[]
      */
-    public function getProducts(): Collection
+    public function getPeople(): Collection
     {
-        return $this->products;
+        return $this->people;
     }
-    public function addProduct(Product $product): self
+    public function addPerson(Person $person): self
     {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->setManufacturer($this);
+        if (!$this->people->contains($person)) {
+            $this->people[] = $person;
+            $person->setSex($this);
         }
         return $this;
     }
-    public function removeProduct(Product $product): self
+    public function removePerson(Person $person): self
     {
-        if ($this->products->contains($product)) {
-            $this->products->removeElement($product);
+        if ($this->people->contains($person)) {
+            $this->people->removeElement($person);
             // set the owning side to null (unless already changed)
-            if ($product->getManufacturer() === $this) {
-                $product->setManufacturer(null);
+            if ($person->getSex() === $this) {
+                $person->setSex(null);
             }
         }
         return $this;
